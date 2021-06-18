@@ -73,7 +73,7 @@
      <div id="conteiner">   
         <div id="esquerda">
             <h1>Escreva o seu comentário</h1>
-            <textarea id="msg" cols="60" rows="20" name="msg"/></textarea>
+            <textarea id="msg" cols="60" rows="20"/></textarea>
             <div class="button">
                 <button id="save-btn" onclick="enviar()">Comentar</button>
             </div>
@@ -94,17 +94,19 @@
 <script>
     function enviar (){
         const text = document.querySelector("#msg").value
+        const data = JSON.stringify({
+            text: text
+        })
         $.ajax({
             type:"POST", 
-            url: "http://localhost:8081/criarComentario",
-            data:{
-                text
-            },
+            url: "http://localhost:8081/criaComentario",
+            data: data,
             contentType: "application/json",
             success: function (res){
                 console.log(res)
             }
         })
+      
     }
     function ler (arquivo){
         const audio=new Audio(`http://localhost:8081/comentarios/${arquivo}`)

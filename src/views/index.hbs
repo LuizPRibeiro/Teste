@@ -44,7 +44,28 @@
             color: black;
             cursor: pointer;
         }
+        #audio-btn {
+            border-radius: 20px;
+            height: 20px;
+            width: 90px; 
+            font-size: 20px;
+            margin-left: 5px;
+            margin-top: 5px;
+            background-color: #d1d1d1;
+            border: none;
+            color: black;
+        }
 
+        #audio-btn:hover{
+            background-color: #E1E8ED;
+            color: black;
+            cursor: pointer;
+        }
+        #printMsg {
+            margin-left: 40px;
+            font: 20px Verdana;
+            color: black;
+        }
         
     </style>
 </head>
@@ -62,7 +83,11 @@
 
         <div id="direita">
             <h1>Comentários</h1>
-            
+            <ul id ="printMsg" class="arquivosPegados_list">
+                {{#each arquivosPegados}}
+                <li>{{this.comentario}}</li><button id="audio-btn" onclick="ler('{{this.arquivo}}.wav')">Ler</button>
+                {{/each}}
+            </ul>
         </div>
     </div>
 
@@ -71,7 +96,7 @@
         const text = document.querySelector("#msg").value
         $.ajax({
             type:"POST", 
-            url: "localhost:8081/criarComentario",
+            url: "http://localhost:8081/criarComentario",
             data:{
                 text
             },
@@ -80,6 +105,10 @@
                 console.log(res)
             }
         })
+    }
+    function ler (arquivo){
+        const audio=new Audio(`http://localhost:8081/comentarios/${arquivo}`)
+        audio.play()
     }
     
 </script>

@@ -32,9 +32,7 @@ module.exports = {
             let sql = `INSERT INTO comentarios (comentario, arquivo) VALUES ("${text}", "${caminho}")`
             
             await db.promise().query(sql).then(([ret]) => {
-                res.status(200).json({
-                    caminho: caminho
-                })
+                
             }).catch ((error)=>{
                 console.log (error)
             })
@@ -42,7 +40,7 @@ module.exports = {
         }).catch(err => {
             console.log('error:', err);
         });
-        res.status(500).send()
+        res.status(200).send()
     },
 
     pegaArquivos: async function (req, res){
@@ -54,7 +52,17 @@ module.exports = {
             console.log (error)
         })
         res.status(200).json(arquivosPegados)
+    },
+
+    renderIndex: async function (req, res){
+        let sql = 'SELECT * FROM comentarios'
+        var arquivosPegados = await db.promise().query(sql).then(([ret]) => {
+            var retorno = JSON.stringify(ret)
+            return JSON.parse(retorno)
+        }).catch ((error)=>{
+            console.log (error)
+        })
+        console.log(arquivosPegados)
+        res.render ("index", {arquivosPegados})
     }
-
-
 }

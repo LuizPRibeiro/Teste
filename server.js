@@ -5,6 +5,7 @@ app.use(cors())
 app.use(express.json())
 app.set ("views", "./src/views")
 app.set ("view engine", "hbs")
+app.use('/comentarios', express.static('comentarios'))
 
 
 require ('dotenv').config()
@@ -17,9 +18,7 @@ app.post ('/criaComentario', controllers.criarComentario)
 app.get ('/pegaArquivos', controllers.pegaArquivos)
 
 
-app.get ('/', (req, res) =>{
-    res.render ("index")
-})
+app.get ('/', controllers.renderIndex)
 
 
 app.listen(8081, () =>{
